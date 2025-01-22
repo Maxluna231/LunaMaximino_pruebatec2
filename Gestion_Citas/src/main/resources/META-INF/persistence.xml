@@ -4,6 +4,8 @@
   <persistence-unit name="citasPu" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.hackaboss.logica.Usuario</class>
+    <class>com.hackaboss.logica.Ciudadano</class>
+    <class>com.hackaboss.logica.Turno</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/turnero?serverTimezone=UTC"/>
