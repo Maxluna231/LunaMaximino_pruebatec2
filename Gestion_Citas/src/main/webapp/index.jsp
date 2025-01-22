@@ -1,4 +1,8 @@
-
+<%-- 
+    Document   : index
+    Created on : 22 ene. 2025, 11:11:30
+    Author     : lunad
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
