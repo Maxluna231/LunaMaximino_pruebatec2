@@ -17,6 +17,8 @@
  git clone https://github.com/Maxluna231/LunaMaximino_pruebatec2.git
 - Abrir el IDE NetBeans.
 - Seleccionar "Importar proyecto".
+- En el apartado services crear un base de datos llamada turnero
+- Dentro del mismo apartado buscar servers y crear uno con tomcat
 
 ## Configurar la base datos
 - Actualizar el archivo persistence.xml con la configuracion adecuada
