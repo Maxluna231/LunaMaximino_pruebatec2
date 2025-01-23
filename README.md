@@ -35,7 +35,7 @@ IDE NetBeans 17
 **Integridad de Datos**
 
 - La tabla de Turno debe tener ciudadano_id, usuario_id, tramite_id para asi poder relacionarlar y poder visualizar y selecionar un nombre de ciudadano
-- y el correo del usuario que le esta otorgando un turno y por ultimo la descripcion del tramite.
+  y el correo del usuario que le esta otorgando un turno y por ultimo la descripcion del tramite.
 
 - En cada las interfaces JSP se le agrego a los input de los formularios el atributo required para no mandar datos vacios hacia la base de datos
 
