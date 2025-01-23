@@ -6,11 +6,11 @@
 
 ## Requisitos
 
-Java Development Kit (JDK) 17 o superior
-Base de datos MySQL
-XAMPP
-Apache Tomcat 9.0.98
-IDE NetBeans 17
+- Java Development Kit (JDK) 17 o superior
+- Base de datos MySQL
+- XAMPP
+- Apache Tomcat 9.0.98
+- IDE NetBeans 17
 
 - Clonar repositorio-
  git clone https://github.com/Maxluna231/LunaMaximino_pruebatec2.git
