@@ -12,9 +12,8 @@ XAMPP
 Apache Tomcat 9.0.98
 IDE NetBeans 17
 
-- 1.clonar repositorio-
+- Clonar repositorio-
  git clone https://github.com/Maxluna231/LunaMaximino_pruebatec2.git
-- 2.Importar el proyecto en el IDE:
 - Abrir el IDE NetBeans.
 - Seleccionar "Importar proyecto".
 
