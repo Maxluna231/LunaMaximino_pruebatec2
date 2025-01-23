@@ -3,7 +3,6 @@
 <%@page import="com.hackaboss.logica.Usuario"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.hackaboss.logica.Persona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -49,12 +48,12 @@
             
         <div class="form-group">
             <label for="nombre">Nombre:</label>
-                <input  type="text" class="form-control" id="nombre" name="nombre">
+                <input  type="text" class="form-control" id="nombre" name="nombre" required>
          </div>  
         
             <div class="form-group">
                  <label for="dni">Dni (Documento Nacional de Identidad) </label>
-                <input type="text" class="form-control" id="dni" name="dni">
+                 <input type="text" class="form-control" id="dni" name="dni" required="">
             </div> 
                   
             
