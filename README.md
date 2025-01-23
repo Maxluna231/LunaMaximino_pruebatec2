@@ -7,11 +7,15 @@ cada ciudadano registrado, Continuamente otra opción para registrar un turno, P
 
 ## Requisitos
 
--Java Development Kit (JDK) 17 o superior
+Java Development Kit (JDK) 17 o superior
 
 Base de datos MySQL
 
-IDE compatible con Java (IntelliJ IDEA, Eclipse, NetBeans, etc.)
+XAMMP
+
+TOOMCAT
+
+IDE Netbeans 17
 
 ## Configuracion
 
