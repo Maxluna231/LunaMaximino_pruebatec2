@@ -3,9 +3,7 @@
 ## Descripción
 
 **La aplicación Cuenta con un login con validaciones de correo y contraseña, como menu de inicio se pide crear un ciudadano en la parte superior tiene las siguiente opciones de agregar tramites para cada 
-cada ciudadano registrado, Continuamente otra opción para registrar un turno, Por ultimo hay una menu para ListarTurno y Filtrarlos, Tiene relaciones entre si las cuales son usuario,ciudadano,tramite,tramite
-
-.**
+cada ciudadano registrado, Continuamente otra opción para registrar un turno, Por ultimo hay una menu para ListarTurno y Filtrarlos, Tiene relaciones entre si las cuales son usuario,ciudadano,tramite,tramite.**
 
 ## Requisitos
 
