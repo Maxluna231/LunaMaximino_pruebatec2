@@ -25,7 +25,7 @@
 
 # doGet
 
-- Este método se ejecuta cuando se recibe una solicitud HTTP GET .
+- Este método se ejecuta cuando se recibe una solicitud HTTP GET un ejemplo hacer el filtrano por nombre .
 
 # doPost 
 
