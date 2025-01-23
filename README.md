@@ -1,39 +1,33 @@
-## Aplicación de gestión de turnos/citas
+## Aplicación de Gestión de Turnos/Citas
 
 ## Descripción
 
-**La aplicación Cuenta con un login con validaciones de correo y contraseña, como menu de inicio se pide crear un ciudadano en la parte superior tiene las siguiente opciones de agregar tramites para cada 
-cada ciudadano registrado, Continuamente otra opción para registrar un turno, Por ultimo hay una menu para ListarTurno y Filtrarlos, Tiene relaciones entre si las cuales son usuario,ciudadano,turno,tramite.**
+**La aplicación cuenta con un sistema de login con validaciones de correo y contraseña. Como menú de inicio, se solicita crear un ciudadano. En la parte superior, se encuentran las siguientes opciones: agregar trámites para cada ciudadano registrado, registrar un turno, y listar turnos con opciones para filtrarlos. La aplicación tiene relaciones entre las siguientes entidades: usuario, ciudadano, turno y trámite.**
 
 ## Requisitos
 
 Java Development Kit (JDK) 17 o superior
-
 Base de datos MySQL
-
-XAMMP
-
-TOOMCAT
-
-IDE Netbeans 17
-
-## Configuracion
+XAMPP
+Apache Tomcat 9.0.98
+IDE NetBeans 17
 
 - 1.clonar repositorio-
  git clone https://github.com/usuario/repo-gestion-empleados.git
 - 2.Importar el proyecto en el IDE:
-- Abrir el IDE.
-
+- Abrir el IDE NetBeans.
 - Seleccionar "Importar proyecto".
 
 ## Configurar la base datos
 - Actualizar el archivo persistence.xml con la configuracion adecuada
 - Persistence Unit Name CitasPU
 - Base datos: Turnero
-
+- Desde el navegador
+- Encender XAMPP y, en el navegador, abrir localhost/3006. Esto debería cargar la página de phpMyAdmin.
+- Crear una base de datos con el nombre turnero.
 
 ## Ejecucion del proyecto
-- Ejecutar desde algun JSP dentro del proyecto WEB Pages o desde la carpeta Principal hacer click sobre el archivo y seleccionar Run
+- Ejecutar desde cualquier archivo JSP dentro de la carpeta WEB Pages del proyecto, o desde la carpeta principal. Hacer clic derecho sobre el archivo y seleccionar la opción Run.
 
 
 ## Supuestos
@@ -45,7 +39,4 @@ IDE Netbeans 17
 
 - En cada las interfaces JSP se le agrego a los input de los formularios el atributo required para no mandar datos vacios hacia la base de datos
 
-- Base de Datos Inicializada:
-
-- La base de datos debe estar previamente creada y configurada.
 
