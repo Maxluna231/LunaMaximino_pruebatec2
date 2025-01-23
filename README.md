@@ -23,7 +23,7 @@ IDE compatible con Java (IntelliJ IDEA, Eclipse, NetBeans, etc.)
 
 - Seleccionar "Importar proyecto".
 
-## Configuar la base datos
+## Configurar la base datos
 - Actualizar el archivo persistence.xml con la configuracion adecuada
 -   Persistence Unit Name CitasPU
 -   Base datos: Turnero
