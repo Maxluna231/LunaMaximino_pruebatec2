@@ -7,14 +7,13 @@ cada ciudadano registrado, Continuamente otra opción para registrar un turno, P
 
 ## Requisitos
 
-Java Development Kit (JDK) 17 o superior
+-Java Development Kit (JDK) 17 o superior
 
 Base de datos MySQL
 
 IDE compatible con Java (IntelliJ IDEA, Eclipse, NetBeans, etc.)
 
 ## Configuracion
-
 
 - 1.clonar repositorio-
  git clone https://github.com/usuario/repo-gestion-empleados.git
@@ -25,8 +24,8 @@ IDE compatible con Java (IntelliJ IDEA, Eclipse, NetBeans, etc.)
 
 ## Configurar la base datos
 - Actualizar el archivo persistence.xml con la configuracion adecuada
--   Persistence Unit Name CitasPU
--   Base datos: Turnero
+- Persistence Unit Name CitasPU
+- Base datos: Turnero
 
 
 ## Ejecucion del proyecto
