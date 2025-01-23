@@ -1,4 +1,3 @@
-
 package com.hackaboss.persistencia;
 
 import com.hackaboss.logica.Usuario;
@@ -16,13 +15,14 @@ import javax.persistence.criteria.Root;
 
 public class UsuarioJpaController implements Serializable {
 
-    public UsuarioJpaController() {
-        emf = Persistence.createEntityManagerFactory("citasPu");
-    }
-    
     public UsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    
+    public UsuarioJpaController() {
+        emf = Persistence.createEntityManagerFactory("citasPU");
+    }
+    
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -134,21 +134,21 @@ public class UsuarioJpaController implements Serializable {
     }
 
     Usuario findUserByEmail(String email) {
-      EntityManager em =getEntityManager();
-      
-      try{
-      //consulta JPQL
-      String consulta = "SELECT usuario From Usuario usuario WHERE usuario.email = :email";
-      Query query = em.createQuery(consulta);
-      query.setParameter("email",email);
-      return(Usuario) query.getSingleResult();
-      } catch (NoResultException e) {
-       return null;
-      }finally{
-      em.close();
-      }
-      
+             
+        EntityManager em =getEntityManager();
+        
+        try {
+            //consulta JPQL para buscar por apellido
+            String consulta = "SELECT usu FROM Usuario usu WHERE usu.email = :email";
+            Query query = em.createQuery(consulta);
+            query.setParameter("email",email);
+            return (Usuario) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        finally {
+            em.close();
+        }
     }
-    
     
 }

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.hackaboss.persistencia;
 
 import com.hackaboss.logica.Tramite;
@@ -12,17 +9,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-/**
- *
- * @author lunad
- */
+
 public class TramiteJpaController implements Serializable {
 
     public TramiteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+    
+    public TramiteJpaController () {
+        emf = Persistence.createEntityManagerFactory("citasPU");
     }
     private EntityManagerFactory emf = null;
 

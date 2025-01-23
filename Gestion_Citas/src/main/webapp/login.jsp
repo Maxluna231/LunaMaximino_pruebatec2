@@ -1,15 +1,15 @@
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Login</title>
         <link rel="stylesheet" href="./css/login.css"/>
     </head>
     <body>
-   <div class="login">
+      		
+  <form action="LoginSv" method="GET">
+<div class="login">
   <div class="login-triangle"></div>
   
   <h2 class="login-header">Bienvenido</h2>
@@ -26,5 +26,10 @@
     </p>
   </form>
 </div>
-    </body>
+
+		</div>
+	</div>
+</div>
+</div>
+
 </html>

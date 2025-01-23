@@ -1,4 +1,3 @@
-
 package com.hackaboss.servlets;
 
 import com.hackaboss.logica.ControladoraLogica;
@@ -10,37 +9,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-@WebServlet(name = "loginSv", urlPatterns = {"/loginSv"})
+@WebServlet(name = "LoginSv", urlPatterns = {"/LoginSv"})
 public class LoginSv extends HttpServlet {
 
-ControladoraLogica control = new ControladoraLogica();   
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    ControladoraLogica control = new ControladoraLogica();
+    
+      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+        
     }
 
-   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
+        
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         
         boolean autorizado = control.validarAcceso(email,password);
         
-        if(autorizado == true){
+        if (autorizado == true) {
             HttpSession miSesion = request.getSession();
-            miSesion.setAttribute("email",email);
-            response.sendRedirect("login.jsp");
-        }else{
-        response.sendRedirect("login.jsp");
+            miSesion.setAttribute("email", email);
+            response.sendRedirect("index.jsp");
         }
-        
+        else {
+            response.sendRedirect("login.jsp");
+        }
     }
 
-   
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,6 +48,6 @@ ControladoraLogica control = new ControladoraLogica();
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }

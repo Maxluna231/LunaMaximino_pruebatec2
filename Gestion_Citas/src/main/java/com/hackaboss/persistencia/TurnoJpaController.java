@@ -1,29 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.hackaboss.persistencia;
 
-import com.hackaboss.logica.Turno;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.hackaboss.logica.Usuario;
+import com.hackaboss.logica.Ciudadano;
+import com.hackaboss.logica.Turno;
 import com.hackaboss.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-/**
- *
- * @author lunad
- */
+
 public class TurnoJpaController implements Serializable {
 
     public TurnoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+    
+    public TurnoJpaController () {
+        emf = Persistence.createEntityManagerFactory("citasPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -36,15 +35,15 @@ public class TurnoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario usuario = turno.getUsuario();
-            if (usuario != null) {
-                usuario = em.getReference(usuario.getClass(), usuario.getId());
-                turno.setUsuario(usuario);
+            Ciudadano ciudadano = turno.getCiudadano();
+            if (ciudadano != null) {
+                ciudadano = em.getReference(ciudadano.getClass(), ciudadano.getId());
+                turno.setCiudadano(ciudadano);
             }
             em.persist(turno);
-            if (usuario != null) {
-                usuario.getTurnos().add(turno);
-                usuario = em.merge(usuario);
+            if (ciudadano != null) {
+                ciudadano.getTurnos().add(turno);
+                ciudadano = em.merge(ciudadano);
             }
             em.getTransaction().commit();
         } finally {
@@ -60,20 +59,20 @@ public class TurnoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Turno persistentTurno = em.find(Turno.class, turno.getId());
-            Usuario usuarioOld = persistentTurno.getUsuario();
-            Usuario usuarioNew = turno.getUsuario();
-            if (usuarioNew != null) {
-                usuarioNew = em.getReference(usuarioNew.getClass(), usuarioNew.getId());
-                turno.setUsuario(usuarioNew);
+            Ciudadano ciudadanoOld = persistentTurno.getCiudadano();
+            Ciudadano ciudadanoNew = turno.getCiudadano();
+            if (ciudadanoNew != null) {
+                ciudadanoNew = em.getReference(ciudadanoNew.getClass(), ciudadanoNew.getId());
+                turno.setCiudadano(ciudadanoNew);
             }
             turno = em.merge(turno);
-            if (usuarioOld != null && !usuarioOld.equals(usuarioNew)) {
-                usuarioOld.getTurnos().remove(turno);
-                usuarioOld = em.merge(usuarioOld);
+            if (ciudadanoOld != null && !ciudadanoOld.equals(ciudadanoNew)) {
+                ciudadanoOld.getTurnos().remove(turno);
+                ciudadanoOld = em.merge(ciudadanoOld);
             }
-            if (usuarioNew != null && !usuarioNew.equals(usuarioOld)) {
-                usuarioNew.getTurnos().add(turno);
-                usuarioNew = em.merge(usuarioNew);
+            if (ciudadanoNew != null && !ciudadanoNew.equals(ciudadanoOld)) {
+                ciudadanoNew.getTurnos().add(turno);
+                ciudadanoNew = em.merge(ciudadanoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -104,10 +103,10 @@ public class TurnoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The turno with id " + id + " no longer exists.", enfe);
             }
-            Usuario usuario = turno.getUsuario();
-            if (usuario != null) {
-                usuario.getTurnos().remove(turno);
-                usuario = em.merge(usuario);
+            Ciudadano ciudadano = turno.getCiudadano();
+            if (ciudadano != null) {
+                ciudadano.getTurnos().remove(turno);
+                ciudadano = em.merge(ciudadano);
             }
             em.remove(turno);
             em.getTransaction().commit();

@@ -150,7 +150,22 @@ span{
     cursor: pointer;
 }
 
+input[type="text"] {
+    height: 50px; /* Altura del campo */
+    font-size: 18px; /* Tamaño del texto */
+    padding: 10px; /* Espaciado interno */
+}
 
 
+
+label {
+    font-size: 40px; /* Tamaño del texto */
+}
+
+.btn-custom {
+    font-size: 20px; /* Tamaño del texto */
+    padding: 40px 40px; /* Altura y ancho del botón */
+    border-radius: 8px; /* Bordes redondeados opcionales */
+}
 
 

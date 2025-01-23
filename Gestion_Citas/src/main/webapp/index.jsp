@@ -1,80 +1,83 @@
 
+<%@page import="com.hackaboss.logica.Ciudadano"%>
+<%@page import="com.hackaboss.logica.Usuario"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="com.hackaboss.logica.Persona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <link rel="stylesheet" href="./css/Principal.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>Formulario de </title>
+        <link rel="stylesheet" href="./css/principal.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+       
     </head>
-    
-    <body>
-        <header class="header">
-    <a href="login.jsp" class="logo">Maximino 
-        <span>Luna</span>
+    <body> 
+        
+    <header class="header">
+        <%
+            String usu = (String) request.getSession().getAttribute("email");
+            if (usu != null) {
+
+        %>
+
+    <a href="login.jsp" class="logo">Bienvenido 
+        <span><%=usu%></span>
         
     </a>
     
     <i class="bx bx-menu" id="menu-icon"></i>
 
 <nav class="navbar">
-    <a href="#home" class="active">Inicio</a>
-    <a href="#education">Educación</a>
-    <a href="#services">Servicios</a>
-    <a href="#testimonials">Projectos</a>
-    <a href="#contact">Contacto</a>
-
+    <a href="index.jsp" class="active">Inicio</a>
+    <a href="tramite.jsp">Tramite</a>
+    <a href="turno.jsp">Turno</a>
+    <a href="Filtrado.jsp">Filtrado</a>
+<a href="index_1.jsp">Personas</a>
 </nav>
 </header>
-         
-  <body style="background-color: greenyellow;"> 
-    
-<header class="header">
-    <a href="#home" class="logo">Maximino 
-        <span>Luna</span>
-        
-    </a>
-    
-    <i class="bx bx-menu" id="menu-icon"></i>
-
-<nav class="navbar">
-    <a href="#home" class="active">Inicio</a>
-    <a href="#education">Ciudadanos</a>
-    <a href="#services">Tramite</a>
-    <a href="#testimonials">Status</a>
-    <a href="#contact">Turno</a>
-
-    
-</nav>
-</header>
-
-<section class="home" id="home">    
+       <section class="home" id="home">    
     <div class="home-content">
-<h1>Registros Ciudadanos<span>:)</span></h1>
-</h3>
-
-<table class="table table-success table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Documento Identidad</th>
-      <th scope="col">Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-   
-  
-  </tbody>
-</table>
-</section>
+  <body style="background-color: #456;"> 
+    
+        <div class="container mt-4">
+        <h1>Agendar Cita</h1>
+        <form action="CiudadanoSv" method="POST">
+            
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+                <input  type="text" class="form-control" id="nombre" name="nombre">
+         </div>  
         
+            <div class="form-group">
+                 <label for="dni">Dni (Documento Nacional de Identidad) </label>
+                <input type="text" class="form-control" id="dni" name="dni">
+            </div> 
+                  
+            
+        <button type="submit" class="btn btn-primary" style="font-size: 15px; padding: 15px 30px;">Enviar</button>
+        
+        </form>
+        
+        
+                  </tbody>  
+             </table> 
+         </div>
+             
+             
+        </div>
+  
+<!-- Scripts de Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </section>
     </body>
 </html>
+<% } 
+else {
+    response.sendRedirect("login.jsp");
+}
+%>

@@ -1,4 +1,3 @@
-
 package com.hackaboss.logica;
 
 import java.io.Serializable;
@@ -21,26 +20,30 @@ public class Turno implements Serializable {
     private String fecha;
     private String estado;
     
-     @ManyToOne
-     @JoinColumn(name = "usuario_id") // Foreign key en la tabla Turno
-     private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false) // Foreign key en la tabla Turno
+    private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "tramite_id") // Relación con Tramite
+    @JoinColumn(name = "tramite_id", nullable = false) // Relación con Tramite
     private Tramite tramite;
 
+    @ManyToOne
+    @JoinColumn(name = "ciudadano_id", nullable = false) // Relación con Ciudadano
+    private Ciudadano ciudadano;
      
     public Turno() {
     }
 
-    public Turno(String numero, String fecha, String estado, Usuario usuario) {
+    public Turno(String numero, String fecha, String estado, Usuario usuario, Tramite tramite, Ciudadano ciudadano) {
         this.numero = numero;
         this.fecha = fecha;
         this.estado = estado;
         this.usuario = usuario;
+        this.tramite = tramite;
+        this.ciudadano = ciudadano;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -79,6 +82,27 @@ public class Turno implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Tramite getTramite() {
+        return tramite;
+    }
+
+    public void setTramite(Tramite tramite) {
+        this.tramite = tramite;
+    }
+
+    public Ciudadano getCiudadano() {
+        return ciudadano;
+    }
+
+    public void setCiudadano(Ciudadano ciudadano) {
+        this.ciudadano = ciudadano;
+    }
+
+    @Override
+    public String toString() {
+        return "Turno{" + "id=" + id + ", numero=" + numero + ", fecha=" + fecha + ", estado=" + estado + ", usuario=" + usuario + ", tramite=" + tramite + ", ciudadano=" + ciudadano + '}';
     }
 
   

@@ -20,8 +20,8 @@ public class CiudadanoJpaController implements Serializable {
         this.emf = emf;
     }
     
-     public CiudadanoJpaController() {
-        emf = Persistence.createEntityManagerFactory("citasPu");
+    public CiudadanoJpaController () {
+        emf = Persistence.createEntityManagerFactory("citasPU");
     }
     
     private EntityManagerFactory emf = null;
@@ -133,5 +133,18 @@ public class CiudadanoJpaController implements Serializable {
             em.close();
         }
     }
+
+  public List<Ciudadano> findCiudadanoByNombre(String nombre) {
+    EntityManager em = getEntityManager();
+    try {
+        String query = "SELECT c FROM Ciudadano c WHERE c.nombre LIKE :nombre";
+        return em.createQuery(query, Ciudadano.class)
+                 .setParameter("nombre", "%" + nombre + "%")
+                 .getResultList();
+    } finally {
+        em.close();
+    }
+}
+
     
 }

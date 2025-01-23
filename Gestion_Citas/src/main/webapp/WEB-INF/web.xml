@@ -9,8 +9,9 @@
         </session-timeout>
     </session-config>
     
+        <!-- Definir la página JSP predeterminada -->
     <welcome-file-list>
-        <welcome-file>>login.jsp</welcome-file>
+        <welcome-file>login.jsp</welcome-file> <!-- Cambia por el nombre de tu JSP -->
     </welcome-file-list>
     
 </web-app>

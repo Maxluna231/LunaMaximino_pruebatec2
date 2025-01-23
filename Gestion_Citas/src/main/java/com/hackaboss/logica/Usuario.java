@@ -1,27 +1,20 @@
-
 package com.hackaboss.logica;
+
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Usuario implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Turno> turnos; // Relación con la lista de turnos del usuario
-
- 
     public Usuario() {
     }
 
@@ -54,12 +47,6 @@ public class Usuario implements Serializable {
         this.password = password;
     }
     
-       public List<Turno> getTurnos() {
-        return turnos;
-    }
-
-    public void setTurnos(List<Turno> turnos) {
-        this.turnos = turnos;
-    }
-
+    
+    
 }
