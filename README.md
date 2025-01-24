@@ -41,4 +41,8 @@
 
 - En cada las interfaces JSP se le agrego a los input de los formularios el atributo required para no mandar datos vacios hacia la base de datos
 
+# email y contraseña
+- mlunadelacruz300@gmail.com
+- max1234
+
 
