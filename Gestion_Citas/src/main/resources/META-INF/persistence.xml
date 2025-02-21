@@ -3,12 +3,12 @@
   <persistence-unit name="citasPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.hackaboss.logica.Ciudadano</class>
-    <class>com.hackaboss.logica.Usuario</class>
-    <class>com.hackaboss.logica.Turno</class>
     <class>com.hackaboss.logica.Tramite</class>
+    <class>com.hackaboss.logica.Turno</class>
+    <class>com.hackaboss.logica.Usuario</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/turnero?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/turnero?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value=""/>

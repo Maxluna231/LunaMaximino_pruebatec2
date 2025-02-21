@@ -1,113 +1,120 @@
 package com.hackaboss.logica;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
+import java.time.LocalDate;
+import javax.persistence.*;
 
 @Entity
 public class Turno implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String numero;
-    private String fecha;
-    private String estado;
-    
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false) // Foreign key en la tabla Turno
-    private Usuario usuario;
+    private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "tramite_id", nullable = false) // Relación con Tramite
-    private Tramite tramite;
+    @Column(nullable = false)
+    private LocalDate fecha;
 
-    @ManyToOne
-    @JoinColumn(name = "ciudadano_id", nullable = false) // Relación con Ciudadano
-    private Ciudadano ciudadano;
-     
+    @Column(nullable = false)
+    private String descripcion;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario elUsuario;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tramite_id", nullable = false)
+    private Tramite elTramite;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ciudadano_id", nullable = false)
+    private Ciudadano elCiudadano;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoTurno estado;
+
+    @Column(nullable = false)
+    private boolean disponible;
+
     public Turno() {
     }
 
-    public Turno(String numero, String fecha, String estado, Usuario usuario, Tramite tramite, Ciudadano ciudadano) {
-        this.numero = numero;
+    public Turno(LocalDate fecha, String descripcion, Usuario elUsuario, Tramite elTramite, Ciudadano elCiudadano, EstadoTurno estado) {
         this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.elUsuario = elUsuario;
+        this.elTramite = elTramite;
+        this.elCiudadano = elCiudadano;
         this.estado = estado;
-        this.usuario = usuario;
-        this.tramite = tramite;
-        this.ciudadano = ciudadano;
+        this.disponible = true;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFeche(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public String getEstado() {
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Usuario getElUsuario() {
+        return elUsuario;
+    }
+
+    public void setElUsuario(Usuario elUsuario) {
+        this.elUsuario = elUsuario;
+    }
+
+    public Tramite getElTramite() {
+        return elTramite;
+    }
+
+    public void setElTramite(Tramite elTramite) {
+        this.elTramite = elTramite;
+    }
+
+    public Ciudadano getElCiudadano() {
+        return elCiudadano;
+    }
+
+    public void setElCiudadano(Ciudadano elCiudadano) {
+        this.elCiudadano = elCiudadano;
+    }
+
+    public EstadoTurno getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoTurno estado) {
         this.estado = estado;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public boolean isDisponible() {
+        return disponible;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
 
-    public Tramite getTramite() {
-        return tramite;
+    public enum EstadoTurno { 
+        EN_ESPERA,
+        YA_ATENDIDO
     }
-
-    public void setTramite(Tramite tramite) {
-        this.tramite = tramite;
-    }
-
-    public Ciudadano getCiudadano() {
-        return ciudadano;
-    }
-
-    public void setCiudadano(Ciudadano ciudadano) {
-        this.ciudadano = ciudadano;
-    }
-
-    @Override
-    public String toString() {
-        return "Turno{" + "id=" + id + ", numero=" + numero + ", fecha=" + fecha + ", estado=" + estado + ", usuario=" + usuario + ", tramite=" + tramite + ", ciudadano=" + ciudadano + '}';
-    }
-
-  
-
-   
-
-    
 }

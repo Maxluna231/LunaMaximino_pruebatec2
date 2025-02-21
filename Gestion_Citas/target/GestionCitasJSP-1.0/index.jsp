@@ -1,10 +1,6 @@
-
-<%@page import="com.hackaboss.logica.Ciudadano"%>
-<%@page import="com.hackaboss.logica.Usuario"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,53 +26,57 @@
     
     <i class="bx bx-menu" id="menu-icon"></i>
 
-<nav class="navbar">
-    <a href="index.jsp" class="active">Inicio</a>
-    <a href="tramite.jsp">Tramite</a>
-    <a href="turno.jsp">Turno</a>
-    <a href="Filtrado.jsp">Filtrado</a>
-<a href="index_1.jsp">Personas</a>
-</nav>
 </header>
+        
        <section class="home" id="home">    
     <div class="home-content">
-  <body style="background-color: #456;"> 
+  <body style="background-color: #456;">     
+        
+      <h1 style="size: 50px"  style="color: #ff0000;"  >SISTEMA DE REGISTRO DE CITAS  </h1>
+   
+
+     <div id="menu">
+    <form action="GestorTurnosSv" method="POST" >
+     
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="alta" class="botonazul">Agrega Turno</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="listarTodos">Gestion de Turnos</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="listarEspera">Turnos Esperando</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px;" type="submit" name="action" value="listarAtendidos">Turnos Atendidos</button>
+        
+    </form>
+    <br>
+    <form action="GestorCiudadanosSv" method="POST"">
+       
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="alta">Agrega Ciudadano</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="buscar">Buscar Ciudadano</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="editar">Editar Ciudadano</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="borrar">Borrar Ciudadano</button>
+        
+    </form>
+    <br>
+    <form action="GestorTramitesSv" method="POST"">
+           
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="alta">Agrega Tramite</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="buscar">Buscar Tramite</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="editar">Editar Tramite</button>
+            <button class="btn btn-info" style="font-size: 15px; padding: 15px 30px; margin-bottom: 15px;" type="submit" name="action" value="borrar">Borrar Tramite</button>
+       
+    </form>
+    <br>
+</div>
+
+    </section>
     
-        <div class="container mt-4">
-        <h1>Agendar Cita</h1>
-        <form action="CiudadanoSv" method="POST">
-            
-        <div class="form-group">
-            <label for="nombre">Nombre:</label>
-                <input  type="text" class="form-control" id="nombre" name="nombre" required>
-         </div>  
         
-            <div class="form-group">
-                 <label for="dni">Dni (Documento Nacional de Identidad) </label>
-                 <input type="text" class="form-control" id="dni" name="dni" required="">
-            </div> 
-                  
-            
-        <button type="submit" class="btn btn-primary" style="font-size: 15px; padding: 15px 30px;">Enviar</button>
-        
-        </form>
-        
-        
-                  </tbody>  
-             </table> 
-         </div>
-             
-             
-        </div>
-  
-<!-- Scripts de Bootstrap -->
+    <!-- Scripts de Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    </section>
+  </section>
     </body>
 </html>
-<% } 
-else {
-    response.sendRedirect("login.jsp");
-}
+
+<%
+    } else {
+        response.sendRedirect("login.jsp");
+    }
 %>

@@ -1,75 +1,201 @@
 package com.hackaboss.persistencia;
 
-import com.hackaboss.logica.Ciudadano;
 
+import com.hackaboss.logica.Ciudadano;
 import com.hackaboss.logica.Tramite;
 import com.hackaboss.logica.Turno;
 import com.hackaboss.logica.Usuario;
-import com.hackaboss.persistencia.exceptions.NonexistentEntityException;
+import com.hackboss.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class ControladoraPersistencia {
+
+    private EntityManagerFactory emf;
+
+    public ControladoraPersistencia() {
+        this.emf = Persistence.createEntityManagerFactory("citasPU");
+    }
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
+    UsuarioJpaController usuarioJpa = new UsuarioJpaController();
+    TramiteJpaController tramiteJpa = new TramiteJpaController();
+    CiudadanoJpaController ciudadanoJpa = new CiudadanoJpaController();
+    TurnoJpaController turnoJpa = new TurnoJpaController();
+
+    public void crearUsuario(Usuario usuario) {
+        usuarioJpa.create(usuario);
+    }
     
-  
-    UsuarioJpaController usuJpa = new UsuarioJpaController();
-    CiudadanoJpaController ciudJpa = new CiudadanoJpaController();
-    TramiteJpaController tramJpa = new TramiteJpaController();
-    TurnoJpaController turJpa = new TurnoJpaController();
-    
-   
-    
- public void crearCiudadano(Ciudadano ciu) {
+      public void crearTramite(Tramite tramite) {
+        tramiteJpa.create(tramite);
+    }
+
+       public void crearCiudadano(Ciudadano ciudadano) {
+        ciudadanoJpa.create(ciudadano);
+    }
        
-        ciudJpa.create(ciu);
-    }
-        
-
-    public List<Ciudadano> traerCiudadano() { 
-        return ciudJpa.findCiudadanoEntities();
+         public void crearTurno(Turno turno) {
+        turnoJpa.create(turno);
     }
 
-    public List<Ciudadano> buscarPorNombre(String busquedaNombre) {
-        return ciudJpa.findCiudadanoByNombre(busquedaNombre);
+
+    public Usuario buscarUsuario(String email) {
+        return usuarioJpa.findUserByEmail(email);
     }
 
-    
-    public void eliminarCiudadano(Long id) {
+    public void eliminarUsuario(long id) throws NonexistentEntityException {
+        usuarioJpa.destroy(id);
+    }
+
+    public List<Usuario> traerUsuarios() {
+        return usuarioJpa.findAllUsuarios();
+    }
+
+    public void modificarUsuario(Usuario usuario) throws Exception {
+        usuarioJpa.edit(usuario);
+    }
+
+  
+    public Tramite buscarTramite(String tipo) {
+        return tramiteJpa.findTramiteByTipo(tipo);
+    }
+
+    public Tramite buscarTramitePorId(long id) {
+        return tramiteJpa.findTramite(id);
+    }
+
+    public List<Tramite> traerTramites() {
+        return tramiteJpa.findAllTramites();
+    }
+
+    public void eliminarTramite(long id) throws NonexistentEntityException {
+        tramiteJpa.destroy(id);
+    }
+
+    public void modificarTramite(Tramite tramite) {
         try {
-            ciudJpa.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-     public Ciudadano traerCiudadano(Long id) {
-        return ciudJpa.findCiudadano(id);
-    }
-
-    public void editarCiudadano(Ciudadano ciu) {
-        try {
-            ciudJpa.edit(ciu);
+            tramiteJpa.edit(tramite);
         } catch (Exception ex) {
             Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public Usuario buscarUsuario(String email) {
-        return usuJpa.findUserByEmail(email);
+    public Ciudadano buscarCiudadano(String dni) {
+        return ciudadanoJpa.findCiudadanoByDni(dni);
     }
 
-    public void crearTramite(Tramite tram) {
-         tramJpa.create(tram);
+    public Ciudadano buscarCiudadanoPorId(long id) {
+        return ciudadanoJpa.findCiudadano(id);
     }
 
-    public void crearTurno(Turno tur) {
-        turJpa.create(tur);
+    public List<Ciudadano> traerCiudadanos() {
+        return ciudadanoJpa.findAllCiudadanos();
     }
 
-   
+    public void eliminarCiudadano(long id) throws NonexistentEntityException {
+        ciudadanoJpa.destroy(id);
+    }
 
-    
-    
+    public void modificarCiudadano(Ciudadano ciudadano) {
+        try {
+            ciudadanoJpa.edit(ciudadano);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+  
+    public Turno buscarTurnoPorId(long id) {
+        return turnoJpa.findTurno(id);
+    }
+
+    public List<Turno> findTurnoEntities() {
+        return turnoJpa.findTurnoEntities();
+    }
+
+    public void modificarTurno(Turno turno) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Turno existingTurno = em.find(Turno.class, turno.getId());
+
+            if (existingTurno == null) {
+                throw new NonexistentEntityException("El turno con ID: " + turno.getId() + " no existe.");
+            }
+
+            existingTurno.setElUsuario(turno.getElUsuario());
+            existingTurno.setElTramite(turno.getElTramite());
+            existingTurno.setElCiudadano(turno.getElCiudadano());
+            existingTurno.setFecha(turno.getFecha());
+            existingTurno.setEstado(turno.getEstado());
+
+            em.merge(existingTurno);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            handleException(ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public void eliminarTurno(long id) throws NonexistentEntityException {
+        EntityManager em = getEntityManager();
+        try {
+            Turno turno = em.find(Turno.class, id);
+            if (turno == null) {
+                throw new NonexistentEntityException("El turno con ID " + id + " no existe.");
+            }
+            em.getTransaction().begin();
+            em.remove(turno);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    public void marcarTurnoAtendido(long id) {
+        Turno turno = turnoJpa.findTurno(id);
+        if (turno != null) {
+            turno.setEstado(Turno.EstadoTurno.YA_ATENDIDO);
+            modificarTurno(turno);
+        }
+    }
+
+    public void regresarTurnoEspera(long id) {
+        Turno turno = turnoJpa.findTurno(id);
+        if (turno != null) {
+            turno.setEstado(Turno.EstadoTurno.EN_ESPERA);
+            modificarTurno(turno);
+        }
+    }
+
+    public List<Turno> traerTurnosPorEstado(Turno.EstadoTurno estadoEnum, int maxResults) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("SELECT t FROM Turno t WHERE t.estado = :estado", Turno.class);
+            query.setParameter("estado", estadoEnum);
+            query.setMaxResults(maxResults);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    private void handleException(Exception ex) {
+        ex.printStackTrace();
+    }
 }

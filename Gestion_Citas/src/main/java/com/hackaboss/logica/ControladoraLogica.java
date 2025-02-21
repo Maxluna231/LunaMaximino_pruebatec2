@@ -1,81 +1,155 @@
 package com.hackaboss.logica;
 
-import com.hackaboss.persistencia.CiudadanoJpaController;
+import com.hackaboss.logica.Turno.EstadoTurno;
 import com.hackaboss.persistencia.ControladoraPersistencia;
-import com.hackaboss.persistencia.TramiteJpaController;
-import com.hackaboss.persistencia.UsuarioJpaController;
-import java.util.ArrayList;
+import com.hackboss.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControladoraLogica {
 
     ControladoraPersistencia controlPersis = new ControladoraPersistencia();
-    
-    public void crearCiudadano(String nombre, String dni) {
-        Ciudadano ciud = new Ciudadano (nombre,dni); 
-        controlPersis.crearCiudadano(ciud);
-    }
-    
-    
-    public List<Tramite> obtenerTramites() {
-    TramiteJpaController tramiteController = new TramiteJpaController();
-    return tramiteController.findTramiteEntities();  // o el método que recupere trámites desde la base de datos
-}
-
-public List<Ciudadano> obtenerCiudadanos() {
-    CiudadanoJpaController ciudadanoController = new CiudadanoJpaController();
-    return ciudadanoController.findCiudadanoEntities();  // o el método que recupere ciudadanos desde la base de datos
-}
-    
-   public List<Usuario> obtenerUsuarios() {
-    // Suponiendo que tienes una clase UsuarioJpaController que maneja la persistencia
-    UsuarioJpaController usuarioController = new UsuarioJpaController();
-    return usuarioController.findUsuarioEntities();  // o el método que retorne los usuarios
-}
-
-    public List<Ciudadano> buscarPorNombre(String busquedaNombre) { 
-        
-        List<Ciudadano> ciudadanosCoincidentes = new ArrayList<>();
-       
-       
-      ciudadanosCoincidentes = controlPersis.buscarPorNombre(busquedaNombre);
-        
-        return ciudadanosCoincidentes;
-    }
-
-   
-
-    public Ciudadano buscarCiudadano(Long id) {
-            return controlPersis.traerCiudadano(id);
-    }
-
-    public void editarCiudadano(Ciudadano ciud) {
-        controlPersis.editarCiudadano(ciud);
-    }
 
     public boolean validarAcceso(String email, String password) {
-        
         Usuario usu = controlPersis.buscarUsuario(email);
-
-        if (usu != null) {
-            if (usu.getEmail().equals(email)) {
-                if (usu.getPassword().equals(password)) {
-                    return true;
-                }
-            }
+        if (usu != null && usu.getEmail().equals(email) && usu.getPassword().equals(password)) {
+            return true;
         }
         return false;
     }
 
-    public void crearTramite(String tipoTramite, String descripcion) {
-        Tramite tram = new Tramite (tipoTramite,descripcion); 
-        controlPersis.crearTramite(tram);
+    public void crearUsuario(Usuario usuario) {
+        controlPersis.crearUsuario(usuario);
     }
 
-    
+    public Usuario buscaUsuario(String email) {
+        return controlPersis.buscarUsuario(email);
+    }
 
-   
+    public void eliminaUsuario(long id) {
+        try {
+            controlPersis.eliminarUsuario(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ControladoraLogica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-    
-    
+    public List<Usuario> traerTodosLosUsuarios() {
+        return controlPersis.traerUsuarios();
+    }
+
+    public void modificarUsuario(Usuario usuario) {
+        try {
+            controlPersis.modificarUsuario(usuario);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladoraLogica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void crearTramite(Tramite tramite) {
+        controlPersis.crearTramite(tramite);
+    }
+
+    public void eliminaTramite(long id) {
+        try {
+            controlPersis.eliminarTramite(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ControladoraLogica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Tramite buscaTramite(String tipo) {
+        return controlPersis.buscarTramite(tipo);
+    }
+
+    public Tramite buscarTramitePorId(long id) {
+        return controlPersis.buscarTramitePorId(id);
+    }
+
+    public List<Tramite> traerTodosLosTramites() {
+        return controlPersis.traerTramites();
+    }
+
+    public void modificarTramite(Tramite tramite) {
+        controlPersis.modificarTramite(tramite);
+    }
+
+    public void crearCiudadano(Ciudadano ciudadano) {
+        controlPersis.crearCiudadano(ciudadano);
+    }
+
+    public Ciudadano buscarCiudadano(String dni) {
+        return controlPersis.buscarCiudadano(dni);
+    }
+
+    public Ciudadano buscarCiudadanoPorId(long id) {
+        return controlPersis.buscarCiudadanoPorId(id);
+    }
+
+    public List<Ciudadano> traerTodosLosCiudadanos() {
+        return controlPersis.traerCiudadanos();
+    }
+
+    public void eliminarCiudadano(long id) {
+        try {
+            controlPersis.eliminarCiudadano(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ControladoraLogica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void modificarCiudadano(Ciudadano ciudadano) {
+        controlPersis.modificarCiudadano(ciudadano);
+    }
+
+    public void crearTurno(Turno turno) {
+        controlPersis.crearTurno(turno);
+    }
+
+    public List<Turno> traerTodosLosTurnos() {
+        return controlPersis.findTurnoEntities();
+    }
+
+    public Turno buscarTurnoPorId(long id) {
+        return controlPersis.buscarTurnoPorId(id);
+    }
+
+    public void eliminarTurno(long id) {
+        try {
+            controlPersis.eliminarTurno(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ControladoraLogica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void modificarTurno(Turno turno) {
+        controlPersis.modificarTurno(turno);
+    }
+
+    public List<Turno> traerTurnosPorEstado(String estado) {
+        try {
+            EstadoTurno estadoEnum = EstadoTurno.valueOf(estado.toUpperCase().replace(" ", "_"));
+            return controlPersis.traerTurnosPorEstado(estadoEnum, 100); 
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Estado no válido: " + estado, e);
+        }
+    }
+
+    public void marcarTurnoAtendido(long turnoId) {
+        Turno turno = buscarTurnoPorId(turnoId);
+        if (turno != null) {
+            turno.setEstado(EstadoTurno.YA_ATENDIDO);
+            controlPersis.modificarTurno(turno);
+        }
+    }
+
+    public void regresarTurnoEspera(long turnoId) {
+        Turno turno = buscarTurnoPorId(turnoId);
+        if (turno != null) {
+            turno.setEstado(EstadoTurno.EN_ESPERA);
+            controlPersis.modificarTurno(turno);
+        }
+    }
+
 }

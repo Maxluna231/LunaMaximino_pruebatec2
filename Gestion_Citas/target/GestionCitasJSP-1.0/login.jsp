@@ -8,7 +8,7 @@
     </head>
     <body>
       		
-  <form action="LoginSv" method="GET">
+  <form action="LoginSv" method="POST">
 <div class="login">
   <div class="login-triangle"></div>
   

@@ -6,27 +6,25 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.hackaboss.logica.Usuario;
+import com.hackaboss.logica.Tramite;
 import com.hackaboss.logica.Ciudadano;
 import com.hackaboss.logica.Turno;
-import com.hackaboss.persistencia.exceptions.NonexistentEntityException;
+import com.hackaboss.logica.Turno.EstadoTurno;
+import com.hackboss.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 public class TurnoJpaController implements Serializable {
+ private final EntityManagerFactory emf;
 
-    public TurnoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public TurnoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("citasPU");
     }
-    
-    public TurnoJpaController () {
-        emf = Persistence.createEntityManagerFactory("citasPU");
-    }
-    private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
@@ -35,16 +33,16 @@ public class TurnoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Ciudadano ciudadano = turno.getCiudadano();
-            if (ciudadano != null) {
-                ciudadano = em.getReference(ciudadano.getClass(), ciudadano.getId());
-                turno.setCiudadano(ciudadano);
+            if (turno.getElUsuario() != null) {
+                turno.setElUsuario(em.getReference(Usuario.class, turno.getElUsuario().getId()));
+            }
+            if (turno.getElTramite() != null) {
+                turno.setElTramite(em.getReference(Tramite.class, turno.getElTramite().getId()));
+            }
+            if (turno.getElCiudadano() != null) {
+                turno.setElCiudadano(em.getReference(Ciudadano.class, turno.getElCiudadano().getId()));
             }
             em.persist(turno);
-            if (ciudadano != null) {
-                ciudadano.getTurnos().add(turno);
-                ciudadano = em.merge(ciudadano);
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -53,37 +51,26 @@ public class TurnoJpaController implements Serializable {
         }
     }
 
-    public void edit(Turno turno) throws NonexistentEntityException, Exception {
+    public void edit(Turno turno) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Turno persistentTurno = em.find(Turno.class, turno.getId());
-            Ciudadano ciudadanoOld = persistentTurno.getCiudadano();
-            Ciudadano ciudadanoNew = turno.getCiudadano();
-            if (ciudadanoNew != null) {
-                ciudadanoNew = em.getReference(ciudadanoNew.getClass(), ciudadanoNew.getId());
-                turno.setCiudadano(ciudadanoNew);
+            if (persistentTurno == null) {
+                throw new NonexistentEntityException("The turno with id " + turno.getId() + " no longer exists.");
             }
-            turno = em.merge(turno);
-            if (ciudadanoOld != null && !ciudadanoOld.equals(ciudadanoNew)) {
-                ciudadanoOld.getTurnos().remove(turno);
-                ciudadanoOld = em.merge(ciudadanoOld);
+            if (turno.getElUsuario() != null) {
+                turno.setElUsuario(em.getReference(Usuario.class, turno.getElUsuario().getId()));
             }
-            if (ciudadanoNew != null && !ciudadanoNew.equals(ciudadanoOld)) {
-                ciudadanoNew.getTurnos().add(turno);
-                ciudadanoNew = em.merge(ciudadanoNew);
+            if (turno.getElTramite() != null) {
+                turno.setElTramite(em.getReference(Tramite.class, turno.getElTramite().getId()));
             }
+            if (turno.getElCiudadano() != null) {
+                turno.setElCiudadano(em.getReference(Ciudadano.class, turno.getElCiudadano().getId()));
+            }
+            em.merge(turno);
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Long id = turno.getId();
-                if (findTurno(id) == null) {
-                    throw new NonexistentEntityException("The turno with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -91,22 +78,14 @@ public class TurnoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destroy(long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Turno turno;
-            try {
-                turno = em.getReference(Turno.class, id);
-                turno.getId();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The turno with id " + id + " no longer exists.", enfe);
-            }
-            Ciudadano ciudadano = turno.getCiudadano();
-            if (ciudadano != null) {
-                ciudadano.getTurnos().remove(turno);
-                ciudadano = em.merge(ciudadano);
+            Turno turno = em.find(Turno.class, id);
+            if (turno == null) {
+                throw new NonexistentEntityException("The turno with id " + id + " no longer exists.");
             }
             em.remove(turno);
             em.getTransaction().commit();
@@ -128,7 +107,7 @@ public class TurnoJpaController implements Serializable {
     private List<Turno> findTurnoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Turno> cq = em.getCriteriaBuilder().createQuery(Turno.class);
             cq.select(cq.from(Turno.class));
             Query q = em.createQuery(cq);
             if (!all) {
@@ -141,7 +120,7 @@ public class TurnoJpaController implements Serializable {
         }
     }
 
-    public Turno findTurno(Long id) {
+    public Turno findTurno(long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Turno.class, id);
@@ -153,7 +132,7 @@ public class TurnoJpaController implements Serializable {
     public int getTurnoCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Long> cq = em.getCriteriaBuilder().createQuery(Long.class);
             Root<Turno> rt = cq.from(Turno.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
@@ -162,5 +141,18 @@ public class TurnoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Turno> findTurnosByEstado(EstadoTurno estado) {
+        if (estado == null) {
+            throw new IllegalArgumentException("El estado no puede ser nulo.");
+        }
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("SELECT t FROM Turno t WHERE t.estado = :estado", Turno.class);
+            query.setParameter("estado", estado);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -168,4 +168,6 @@ label {
     border-radius: 8px; /* Bordes redondeados opcionales */
 }
 
-
+.letras {
+    color: #ff0000; /* Cambia a tu color preferido */
+}

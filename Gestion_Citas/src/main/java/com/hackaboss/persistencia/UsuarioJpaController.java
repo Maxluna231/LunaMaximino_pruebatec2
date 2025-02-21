@@ -1,29 +1,31 @@
+
 package com.hackaboss.persistencia;
 
-import com.hackaboss.logica.Usuario;
-import com.hackaboss.persistencia.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import com.hackaboss.logica.Usuario;
+import com.hackboss.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+
 
 public class UsuarioJpaController implements Serializable {
+
+    private EntityManagerFactory emf = null;
 
     public UsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
+
     public UsuarioJpaController() {
         emf = Persistence.createEntityManagerFactory("citasPU");
     }
-    
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -53,7 +55,7 @@ public class UsuarioJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = usuario.getId();
+                long id = usuario.getId();
                 if (findUsuario(id) == null) {
                     throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.");
                 }
@@ -66,7 +68,7 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destroy(long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -98,7 +100,7 @@ public class UsuarioJpaController implements Serializable {
     private List<Usuario> findUsuarioEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Usuario> cq = em.getCriteriaBuilder().createQuery(Usuario.class);
             cq.select(cq.from(Usuario.class));
             Query q = em.createQuery(cq);
             if (!all) {
@@ -111,7 +113,7 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public Usuario findUsuario(Long id) {
+    public Usuario findUsuario(long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Usuario.class, id);
@@ -123,7 +125,7 @@ public class UsuarioJpaController implements Serializable {
     public int getUsuarioCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Long> cq = em.getCriteriaBuilder().createQuery(Long.class);
             Root<Usuario> rt = cq.from(Usuario.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
@@ -133,22 +135,27 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    Usuario findUserByEmail(String email) {
-             
-        EntityManager em =getEntityManager();
-        
+    public Usuario findUserByEmail(String email) {
+        EntityManager em = getEntityManager();
         try {
-            //consulta JPQL para buscar por apellido
-            String consulta = "SELECT usu FROM Usuario usu WHERE usu.email = :email";
+            String consulta = "SELECT u FROM Usuario u WHERE u.email = :email";
             Query query = em.createQuery(consulta);
-            query.setParameter("email",email);
+            query.setParameter("email", email);
             return (Usuario) query.getSingleResult();
         } catch (NoResultException e) {
             return null;
-        }
-        finally {
+        } finally {
             em.close();
         }
     }
-    
+
+    public List<Usuario> findAllUsuarios() {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery("SELECT u FROM Usuario u", Usuario.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }
